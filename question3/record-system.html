@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      let lineNo = 1;
+      $(function () {
+        $("form").on("submit", function (e) {
+          e.preventDefault();
+          $.ajax({
+            type: "post",
+            url: "http://localhost:3000/question3/record-system.php?",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify($("form").serializeArray()),
+            success: function (productData) {
+              console.log(productData);
+            },
+          });
+        });
+
+        function addProductCard(productData) {
+          markup = "<tr><td>This is row " + lineNo + "</td></tr>";
+          tableBody = $("table tbody");
+          tableBody.append(markup);
+          lineNo++;
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="layout">
+        <div class="col col-main">
+          <strong>Создать товар</strong>
+          <br />
+          <form>
+            <input name="productName" placeholder="наименование товара" />
+            <br />
+            <br />
+            <input name="productCount" placeholder="остаток" />
+            <br />
+            <br />
+            <label for="productStock">Товар на акции:</label>
+            <select name="productStock">
+              <option value=""></option>
+              <option value="stock">акция</option>
+              <option value="discount">уценка</option>
+            </select>
+            <br />
+            <br />
+            <label for="productStatusCount">Статус остатков:</label>
+            <select name="productStatusCount">
+              <option value=""></option>
+              <option value="disableSales">запрет продаж</option>
+              <option value="discontinued">снят с производства</option>
+            </select>
+            <br />
+            <br />
+            <input name="submit" type="submit" value="Создать" />
+          </form>
+        </div>
+        <div class="col col-complementary" role="complementary">
+          <table>
+            <thead>
+              <tr>
+                <th>Созданные товары</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
